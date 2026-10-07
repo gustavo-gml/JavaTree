@@ -17,10 +17,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return raiz;
     }// fim funcao inserir
 
-    public Node<T> add(T dado) {
+    public void add(T dado) {
         Node<T> node = new Node(dado);
-        raiz = add(raiz, node);
-        return raiz;
+        this.raiz = add(raiz, node);
     }
 
     private void preOrder(Node <T> raiz){
