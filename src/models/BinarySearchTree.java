@@ -22,8 +22,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
         this.raiz = add(raiz, node);
     }
 
-    private void preOrder(Node <T> raiz){
-        System.out.println(raiz.dado + " - ");
+    private void preOrder(Node <T> raiz) {
+        if (raiz == null) {
+            return;
+        }
+        System.out.print(raiz.dado + " - ");
         preOrder(raiz.esquerda);
         preOrder(raiz.direita);
         
