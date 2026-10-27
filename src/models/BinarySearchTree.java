@@ -32,6 +32,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private T buscar(Node<T> raiz, T dadoBusca) {
+        
         if (raiz == null)
             return null; // Dado não encontrado na árvore
 

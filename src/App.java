@@ -1,5 +1,6 @@
 import java.util.*;
 
+import models.Aluno;
 import models.BinarySearchTree;
 
 public class App {
@@ -17,33 +18,40 @@ public class App {
     }
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        BinarySearchTree<Integer> arvore = new BinarySearchTree<>(); // Instanciar a arvore
+        BinarySearchTree<Aluno> arvore = new BinarySearchTree<>(); // Instanciar a arvore
         int opcao=0;
         do {
             System.out.println("----------------------------------");
             opcao = menu();
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o elemento a ser inserido: ");
-                    int elementoInserir = sc.nextInt();
-                    arvore.add(elementoInserir); // inserir
+                    System.out.print("Digite a matricula ");
+                    int matricula = Integer.parseInt(sc.nextLine());
+
+                    System.out.print("Digite o nome do aluno: ");
+                    String nome = sc.nextLine();
+
+                    arvore.add(new Aluno(nome, matricula)); // inserir
                     System.out.println("Elemento inserido com sucesso!");
+
                     break;
                 case 2:
                     System.out.print("Digite o elemento a ser removido: ");
-                    int elementoRemover = sc.nextInt();
+                    int elementoRemover = Integer.parseInt(sc.nextLine());
                     // Implementar a remoção do elemento na árvore
                     System.out.println("Elemento removido com sucesso!");
                     break;
                 case 3:
-                    System.out.print("Digite o elemento a ser buscado: ");
-                    int elementoBuscar = sc.nextInt();
-                    Integer resultado = arvore.buscar(elementoBuscar);
+                    System.out.print("Digite a matrícula do aluno a ser buscado: ");
+                    int elementoBuscar = Integer.parseInt(sc.nextLine());
+                    Aluno alunoBusca = new Aluno(elementoBuscar);
+
+                    Aluno resultado = arvore.buscar(alunoBusca);
                     
                     if (resultado != null) 
-                        System.out.println("Elemento " + resultado + " encontrado!");
-                     else
-                        System.out.println("Elemento não encontrado na árvore!");
+                        System.out.println("Aluno [" + resultado + "] encontrado!");
+                    else
+                        System.out.println("Aluno não encontrado na árvore!");
                         
                     break;
 
