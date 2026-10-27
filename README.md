@@ -1,18 +1,25 @@
-## Getting Started
+# Árvore Binária de Busca em Java (`JavaTree`)
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Projeto de estudo de **Estrutura de Dados** com implementação genérica de uma **Árvore Binária de Busca** (*Binary Search Tree* - BST) em Java.
 
-## Folder Structure
+## Estrutura do Projeto
 
-The workspace contains two folders by default, where:
+Os arquivos-fonte estão localizados no diretório `src/`:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- **`Node<T extends Comparable<T>>`**: Representa um nó da árvore binária, armazenando o dado genérico (`T`) e as referências para os nós filhos da `esquerda` e da `direita`.
+- **`BinarySearchTree<T extends Comparable<T>>`**: Implementa a estrutura da Árvore Binária de Busca e suas operações principais:
+  - `add(T dado)`: Inserção recursiva mantendo a propriedade de ordenação da BST.
+  - `buscar(T dadoBusca)`: Busca recursiva utilizando `equals` e `compareTo`.
+  - `preOrder()`: Percurso em pré-ordem (Raiz, Esquerda, Direita).
+  - `inOrder()`: Percurso em ordem simétrica (Esquerda, Raiz, Direita).
+  - `postOrder()`: Percurso em pós-ordem (Esquerda, Direita, Raiz).
+- **`App`**: Classe principal com menu interativo via console para testar as operações da árvore.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Como Executar
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Compile e execute a classe `App` a partir da pasta raiz do projeto:
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+```bash
+javac -d bin src/*.java
+java -cp bin App
+```
