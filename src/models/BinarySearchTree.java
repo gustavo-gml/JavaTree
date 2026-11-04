@@ -44,6 +44,54 @@ public class BinarySearchTree<T extends Comparable<T>> {
         else
             return buscar(raiz.direita, dadoBusca);
     }
+
+    // Remove o nó raiz passado por parâmetro e retorna a nova raiz da subárvore
+    private Node<T> removeNode(Node<T> raiz) {
+        Node<T> nova, pai;
+        // Caso 1 e Caso 2 (nó sem filho direito: retorna o filho esquerdo ou null)
+        if (raiz.direita == null) {
+            nova = raiz.esquerda;
+            return nova;
+        }
+        // Caso 3: percorrer até achar o menor elemento da subárvore à direita
+        pai = raiz;
+        nova = raiz.direita;
+        while (nova.esquerda != null) {
+            pai = nova;
+            nova = nova.esquerda;
+        } // fim while
+
+        // Reorganizar os ponteiros
+        if (pai != raiz) {
+            pai.esquerda = nova.direita;
+            nova.direita = raiz.direita;
+        }
+        nova.esquerda = raiz.esquerda;
+        System.out.println("Retornando nova raiz: " + nova.dado);
+        return nova;
+    }
+
+    public void remove(T dadoRemover) {
+        this.raiz = remove(this.raiz, dadoRemover);
+    }
+
+    private Node<T> remove(Node<T> raiz, T dadoRemover) {
+        if (raiz == null) {
+            System.out.println("Não encontrado - :(");
+            return null;
+        }
+        if (raiz.dado.equals(dadoRemover)) {
+            System.out.println("Encontrado - removendo");
+            return removeNode(raiz);
+        }
+        if (dadoRemover.compareTo(raiz.dado) < 0)
+            raiz.esquerda = remove(raiz.esquerda, dadoRemover);
+        else
+            raiz.direita = remove(raiz.direita, dadoRemover);
+
+        return raiz;
+    } // fim buscaRemove
+
     
 
     private void preOrder(Node <T> raiz) {
@@ -89,8 +137,6 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
 
-    
-
-
+   
     
 }

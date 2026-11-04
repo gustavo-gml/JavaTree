@@ -1,7 +1,6 @@
 import java.util.*;
+import models.*;
 
-import models.Aluno;
-import models.BinarySearchTree;
 
 public class App {
 
@@ -36,9 +35,12 @@ public class App {
 
                     break;
                 case 2:
-                    System.out.print("Digite o elemento a ser removido: ");
-                    int elementoRemover = Integer.parseInt(sc.nextLine());
-                    // Implementar a remoção do elemento na árvore
+                    System.out.print("Digite a matricula do aluno a ser removido: ");
+                    int matriculaRemover = Integer.parseInt(sc.nextLine());
+
+                    Aluno alunoRemover = new  Aluno(matriculaRemover);
+                    arvore.remove(alunoRemover);
+
                     System.out.println("Elemento removido com sucesso!");
                     break;
                 case 3:
