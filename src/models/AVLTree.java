@@ -1,10 +1,11 @@
 package models;
+
 import java.lang.Comparable;
 
 public class AVLTree<T extends Comparable<T>> {
     private Node<T> raiz;
 
-    public AVLTree(){
+    public AVLTree() {
         this.raiz = null;
     }
 
@@ -20,10 +21,31 @@ public class AVLTree<T extends Comparable<T>> {
 
         raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
         System.out.println("Altura do no " + raiz.dado + ": " + altura(raiz));
-        return raiz;
+
+        switch (raiz.fb) {
+            case -2:
+                if (raiz.esquerda.fb <= 0) // rotacao simples a direita
+                    raiz = rotacaoDir(raiz);
+                else { // rotacao dupla a direita
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
+
+            case 2:
+                if (raiz.direita.fb >= 0) // rotacao simples a esquerda
+                    raiz = rotacaoEsq(raiz);
+                else { // rotacao dupla a esquerda
+                    raiz.direita = rotacaoDir(raiz.direita);
+                    raiz = rotacaoEsq(raiz);
+                }
+
+                break;
+        }
+
+        return raiz; // retorna a raiz atualizada
     }// fim funcao inserir
 
-   
     public void add(T dado) {
         Node<T> novoNo = new Node<>(dado);
         this.raiz = add(raiz, novoNo);
@@ -34,7 +56,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     private T buscar(Node<T> raiz, T dadoBusca) {
-        
+
         if (raiz == null)
             return null; // Dado não encontrado na árvore
 
@@ -91,39 +113,83 @@ public class AVLTree<T extends Comparable<T>> {
         else
             raiz.direita = remove(raiz.direita, dadoRemover);
 
+        // Atualizar o fb e aplicar rotações após a remoção
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        switch (raiz.fb) {
+            case 2:
+                if (raiz.direita.fb >= 0) // rotacao simples a esquerda
+                    raiz = rotacaoEsq(raiz);
+                else { // rotacao dupla a esquerda
+                    raiz.direita = rotacaoDir(raiz.direita);
+                    raiz = rotacaoEsq(raiz);
+                }
+                break;
+            case -2:
+                if (raiz.esquerda.fb <= 0) // rotacao simples a direita
+                    raiz = rotacaoDir(raiz);
+                else { // rotacao dupla a direita
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
+        }
+
         return raiz;
     } // fim buscaRemove
+    
 
-
-    public int altura(){
+    public int altura() {
         return altura(this.raiz);
     }
 
-    public int altura(Node<T> raiz){
+    public int altura(Node<T> raiz) {
         int altEsq, altDir;
-        
-        if(raiz == null){
+
+        if (raiz == null) {
             return -1;
         }
 
         altEsq = altura(raiz.esquerda);
         altDir = altura(raiz.direita);
 
-        if(altDir > altEsq)
+        if (altDir > altEsq)
             return altDir + 1;
         else
-            return  altEsq + 1;
+            return altEsq + 1;
     }
-    
 
-    private void preOrder(Node <T> raiz) {
+    // ------------------- Rotacao Simples a Direita -------------------
+    public Node<T> rotacaoDir(Node<T> raiz) {
+        Node<T> nova = raiz.esquerda;
+        raiz.esquerda = nova.direita;
+        nova.direita = raiz;
+        // atualizar fator de balanceamento
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        nova.fb = altura(nova.direita) - altura(nova.esquerda);
+        System.out.println("Rotacao Direita -->");
+        return nova;
+    }
+
+    // ------------------- Rotacao Simples a Esquerda ------------------
+    public Node<T> rotacaoEsq(Node<T> raiz) {
+        Node<T> nova = raiz.direita;
+        raiz.direita = nova.esquerda;
+        nova.esquerda = raiz;
+        // atualizar os fb
+        raiz.fb = altura(raiz.direita) - altura(raiz.esquerda);
+        nova.fb = altura(nova.direita) - altura(nova.esquerda);
+        System.out.println("Rotacao Esquerda -->");
+        return nova;
+    }
+
+    private void preOrder(Node<T> raiz) {
         if (raiz == null) {
             return;
         }
         System.out.print(raiz.dado + " (fb:" + raiz.fb + ") ");
         preOrder(raiz.esquerda);
         preOrder(raiz.direita);
-        
+
     }
 
     private void inOrder(Node<T> raiz) {
@@ -135,7 +201,7 @@ public class AVLTree<T extends Comparable<T>> {
         inOrder(raiz.direita);
     }
 
-     private void postOrder(Node<T> raiz) {
+    private void postOrder(Node<T> raiz) {
         if (raiz == null) {
             return;
         }
@@ -144,7 +210,7 @@ public class AVLTree<T extends Comparable<T>> {
         System.out.print(raiz.dado + " ");
     }
 
-    public void preOrder(){
+    public void preOrder() {
         preOrder(this.raiz);
     }
 
@@ -158,7 +224,4 @@ public class AVLTree<T extends Comparable<T>> {
         System.out.println();
     }
 
-
-   
-    
 }
